@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+requests = "*"
+fbprophet = "*"
+pandas = "*"
+"boto3" = "*"
+matplotlib = "*"
+sortedcontainers = "*"
+scipy = "*"
+Flask = "*"
+APScheduler = "*"
+prometheus_client = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"
