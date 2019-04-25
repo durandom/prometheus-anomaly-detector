@@ -196,8 +196,7 @@ def predict_metrics(pd_dict, prediction_range=1440):
                 print("Too many NaN values........Skipping this label")
                 limit_iterator_num -= 1
             else:
-                print("got exception")
-                print(exception)
+                raise exception
         pass
 
     return predictions_dict
