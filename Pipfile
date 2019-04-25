@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 requests = "*"
-fbprophet = "==0.4"
+fbprophet = "==0.3post2"
 pandas = "*"
 "boto3" = "*"
 matplotlib = "*"
@@ -14,8 +14,9 @@ scipy = "*"
 Flask = "*"
 APScheduler = "*"
 prometheus_client = "*"
+pystan = "<=2.18.1"
 
 [dev-packages]
 
 [requires]
-python_version = "3.7"
+python_version = "3.6"
