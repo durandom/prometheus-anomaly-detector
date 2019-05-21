@@ -191,11 +191,13 @@ def predict_metrics(pd_dict, prediction_range=1440):
             # forecast.plot()
             # plt.legend()
             # plt.show()
+        # except KeyError as exception:
         except ValueError as exception:
             if str(exception) == "ValueError: Dataframe has less than 2 non-NaN rows.":
                 print("Too many NaN values........Skipping this label")
                 limit_iterator_num -= 1
             else:
+                print(exception)
                 raise exception
         pass
 

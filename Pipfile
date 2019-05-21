@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 requests = "*"
-fbprophet = "==0.3post2"
+fbprophet = "==0.3.post2"
 pandas = "*"
 "boto3" = "*"
 matplotlib = "*"
@@ -14,7 +14,11 @@ scipy = "*"
 Flask = "*"
 APScheduler = "*"
 prometheus_client = "*"
-pystan = "<=2.18.1"
+# https://github.com/facebook/prophet/issues/326#issuecomment-483534128
+pystan = "==2.17.1.0" # https://github.com/facebook/prophet/issues/249#issuecomment-451805510
+#pystan = "<=2.18.1"
+# for https://github.com/facebook/prophet/issues/808
+numpy = "==1.14.5"
 
 [dev-packages]
 

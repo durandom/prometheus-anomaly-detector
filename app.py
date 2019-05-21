@@ -61,6 +61,7 @@ fixed_label_config = str(os.getenv("LABEL_CONFIG",None)) # by default it will tr
 if fixed_label_config  != "None":
     config_list = fixed_label_config.split(";") # Separate multiple label configurations using a ';' (semi-colon)
     fixed_label_config_dict = literal_eval(config_list[0]) # # TODO: Add more error handling here
+    print(fixed_label_config_dict)
 
 
 predictions_dict_prophet = {}
@@ -96,6 +97,7 @@ def job(current_time):
 
         # split into multiple label configs
         existing_config_list = list(data_dict.keys())
+        # print(existing_config_list)
         for config in config_list:
             config_found = False
             for existing_config in existing_config_list:
@@ -105,7 +107,7 @@ def job(current_time):
                     pass
             if not config_found:
                 print("Specified Label Configuration {} was not found".format(config))
-                raise KeyError
+                # raise KeyError
                 pass
             # single_label_data_dict[config] = data_dict[config]
             pass
@@ -226,19 +228,20 @@ def metrics():
         PREDICTED_VALUES_FOURIER_LOWER.labels(**temp_current_metric_metadata_dict).set(predictions_dict_fourier[metadata]['yhat_lower'][index_fourier])
 
 
-        if len(live_data_dict[metadata] >= 5):
-            pass
-            # Update the metric values for detected anomalies 1 in case of anomaly, 0 if not
-            if (detect_anomalies(predictions_dict_fourier[metadata][len(predictions_dict_fourier[metadata])-(len(live_data_dict[metadata])):],live_data_dict[metadata])):
-                PREDICTED_ANOMALY_FOURIER.labels(**temp_current_metric_metadata_dict).set(1)
-            else:
-                PREDICTED_ANOMALY_FOURIER.labels(**temp_current_metric_metadata_dict).set(0)
-
-            if (detect_anomalies(predictions_dict_prophet[metadata][len(predictions_dict_prophet[metadata])-(len(live_data_dict[metadata])):],live_data_dict[metadata])):
-                PREDICTED_ANOMALY_PROPHET.labels(**temp_current_metric_metadata_dict).set(1)
-            else:
-                PREDICTED_ANOMALY_PROPHET.labels(**temp_current_metric_metadata_dict).set(0)
-        pass
+        # TypeError: Invalid comparison between dtype=datetime64[ns] and int
+        # if len(live_data_dict[metadata] >= 5):
+        #     pass
+        #     # Update the metric values for detected anomalies 1 in case of anomaly, 0 if not
+        #     if (detect_anomalies(predictions_dict_fourier[metadata][len(predictions_dict_fourier[metadata])-(len(live_data_dict[metadata])):],live_data_dict[metadata])):
+        #         PREDICTED_ANOMALY_FOURIER.labels(**temp_current_metric_metadata_dict).set(1)
+        #     else:
+        #         PREDICTED_ANOMALY_FOURIER.labels(**temp_current_metric_metadata_dict).set(0)
+        #
+        #     if (detect_anomalies(predictions_dict_prophet[metadata][len(predictions_dict_prophet[metadata])-(len(live_data_dict[metadata])):],live_data_dict[metadata])):
+        #         PREDICTED_ANOMALY_PROPHET.labels(**temp_current_metric_metadata_dict).set(1)
+        #     else:
+        #         PREDICTED_ANOMALY_PROPHET.labels(**temp_current_metric_metadata_dict).set(0)
+        # pass
 
     return Response(generate_latest(REGISTRY).decode("utf-8"), content_type='text; charset=utf-8')
 

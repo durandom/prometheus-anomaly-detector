@@ -1,3 +1,5 @@
+from sys import getsizeof
+from time import sleep
 from urllib.parse import urlparse
 import requests
 import datetime
@@ -7,7 +9,7 @@ import json
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-DEBUG = False
+DEBUG = True
 MAX_REQUEST_RETRIES = 5
 
 class Prometheus:
@@ -69,10 +71,10 @@ class Prometheus:
                 print("Invalid Data Size, using default value: {}".format(self.stored_data_range))
             pass
 
-        if not name in self.all_metrics():
-            raise Exception("{} is not a valid metric".format(name))
-        elif DEBUG:
-            print("Metric is valid.")
+        # if not name in self.all_metrics():
+        #     raise Exception("{} is not a valid metric".format(name))
+        # elif DEBUG:
+        #     print("Metric is valid.")
 
         # num_chunks = 1
         num_chunks = int(self.DATA_CHUNK_SIZE_LIST[self.stored_data_range]/self.DATA_CHUNK_SIZE_LIST[self.data_chunk_size]) # Calculate the number of chunks using total data size and chunk size.
@@ -82,8 +84,9 @@ class Prometheus:
 
 
     def get_metrics_from_prom(self, name, chunks):
-        if not name in self.all_metrics():
-            raise Exception("{} is not a valid metric".format(name))
+        CONNECTION_RETRY_WAIT_TIME = 1
+        # if not name in self.all_metrics():
+        #     raise Exception("{} is not a valid metric".format(name))
 
         # start = self.start_time.timestamp()
         end_timestamp = self.end_time.timestamp()
@@ -113,10 +116,10 @@ class Prometheus:
                     data += response.json()['data']['result']
 
                     if DEBUG:
-                        # print("Size of recent chunk = ",getsizeof(data))
+                        print("Size of recent chunk = ",getsizeof(data))
                         # print(data)
-                        print(datetime.datetime.fromtimestamp(response.json()['data']['result'][0]['values'][0][0]))
-                        print(datetime.datetime.fromtimestamp(response.json()['data']['result'][0]['values'][-1][0]))
+                        # print(datetime.datetime.fromtimestamp(response.json()['data']['result'][0]['values'][0][0]))
+                        # print(datetime.datetime.fromtimestamp(response.json()['data']['result'][0]['values'][-1][0]))
                         pass
 
                     del response

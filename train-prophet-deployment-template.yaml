@@ -54,6 +54,10 @@ parameters:
   description: Store Dataframes of cumulated training dataframes to ceph
   required: false
   value: 'True'
+- name: METRIC_NAME
+  description: Metric for training
+  required: false
+  value: 'node_load1'
 - name: GET_OLDER_DATA
   description: Use the previously stored dataframes in ceph to train the models
   required: false
@@ -80,10 +84,10 @@ objects:
     labels:
       app: ${APPLICATION_NAME}
   spec:
-    resources:
-      limits:
-        memory: 4Gi
-        cpu: "2"
+#    resources:
+#      limits:
+#        memory: 4Gi
+#        cpu: "1"
     output:
       to:
         kind: ImageStreamTag
@@ -99,6 +103,8 @@ objects:
         - name: APP_FILE
           value: 'app.py'
         - name: GIT_SSL_NO_VERIFY
+          value: 'true'
+        - name: ENABLE_PIPENV
           value: 'true'
         forcePull: true
         from:
@@ -156,13 +162,15 @@ objects:
             value: "${STORE_INTERMEDIATE_DATA}"
           - name: GET_OLDER_DATA
             value: "${GET_OLDER_DATA}"
+          - name: METRIC_NAME
+            value: "${METRIC_NAME}"
           image: ${APPLICATION_NAME}
           imagePullPolicy: IfNotPresent
           name: ${APPLICATION_NAME}
           resources:
             requests:
               memory: 500Mi
-              cpu: "4"
+              cpu: "1"
             limits:
               memory: 16Gi
               cpu: "4"

@@ -1,5 +1,6 @@
 requests
-fbprophet
+fbprophet==0.3.post2
+pystan==2.18.0.0
 pandas
 boto3
 matplotlib
